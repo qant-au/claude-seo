@@ -2,6 +2,10 @@
 <!-- i18n-source-sha: HEAD -->
 <!-- i18n-date: 2026-04-10 -->
 
+> **Translation may be behind the English source.** Refer to [the English version](../../SECURITY.md) for the latest content.
+>
+> **Переклад може відставати від англійської версії.** Актуальний вміст: [англійська версія](../../SECURITY.md).
+
 # Політика безпеки
 
 ## Повідомлення про вразливість
