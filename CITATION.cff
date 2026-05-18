@@ -5,6 +5,10 @@ message: >-
 type: software
 authors:
   - alias: AgriciDaniel
+    given-names: Daniel
+    family-names: Agrici
+    email: agricidaniel@gmail.com
+    website: 'https://agricidaniel.com'
 repository-code: 'https://github.com/AgriciDaniel/claude-seo'
 url: 'https://github.com/AgriciDaniel/claude-seo'
 license: MIT
