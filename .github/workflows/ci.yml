@@ -88,10 +88,14 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install pytest + test deps
-        # beautifulsoup4 is required by tests/test_lazy_detection.py which
-        # exercises parse_html.py via real BeautifulSoup parsing.
-        run: pip install pytest beautifulsoup4
+      - name: Install runtime + test deps
+        # Tests import scripts that import url_safety.py (and others), which
+        # require the full runtime dependency set at module-import time. The
+        # prior minimal install (pytest + beautifulsoup4) broke when Phase J/K
+        # tests added imports through url_safety -> requests. Installing from
+        # requirements.txt matches the documented user install path and keeps
+        # CI in sync with the runtime contract.
+        run: pip install -r requirements.txt pytest
 
       - name: Run pytest
         run: pytest tests/ -v
