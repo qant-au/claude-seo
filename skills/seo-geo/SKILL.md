@@ -210,8 +210,8 @@ New standard (December 2025) for machine-readable AI licensing terms.
 
 | Platform | Key Citation Sources | Optimization Focus |
 |----------|---------------------|-------------------|
-| **Google AI Overviews** | Heavily top-10 organic (~38% URL overlap with top-10) | Traditional SEO + passage optimization |
-| **Google AI Mode** (Gemini 3.5 Flash) | Broader, less ranking-correlated pool (~12% top-10 overlap; ~9 domains cited/query) | Distinct surface: freshness, entity authority, citable passages beyond position 5 |
+| **Google AI Overviews** | Strongly ranking-correlated — cites pages that already rank well | Traditional SEO + passage optimization |
+| **Google AI Mode** (Gemini 3.5 Flash) | Weakly ranking-correlated; broader pool (~9 domains cited/query, Ahrefs) | Distinct surface: freshness, entity authority, citable passages beyond position 5 |
 | **ChatGPT** | Wikipedia (47.9%), Reddit (11.3%) | Entity presence, authoritative sources |
 | **Perplexity** | Reddit (46.7%), Wikipedia | Community validation, discussions |
 | **Bing Copilot** | Bing index, authoritative sites | Bing SEO, IndexNow |
