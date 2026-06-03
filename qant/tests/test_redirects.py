@@ -1,10 +1,21 @@
 """Tests for qant.checks.redirects."""
 from unittest.mock import patch
+import sys
+import os
 
 from qant.checks import redirects
 from qant.config import RedirectEntry
 from qant.fetcher import FetchResult, RedirectStep
 from qant.findings import Status
+
+# Import URLSafetyError from the same path as redirects.py
+_SCRIPTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "scripts")
+if _SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPTS_DIR)
+try:
+    from url_safety import URLSafetyError  # type: ignore
+except ImportError:
+    URLSafetyError = Exception  # type: ignore[misc,assignment]
 
 
 def _redirected(from_: str, to: str, code: int = 301) -> FetchResult:
@@ -85,3 +96,19 @@ def test_classifies_redirect_kind_from_url_shape(mock_fetch):
         RedirectEntry(**{"from": "https://x.com", "to": "https://x.com.au", "code": 301}),
     ])
     assert findings[0].id == "redirects.brand-protection-redirect-broken"
+
+
+@patch("qant.checks.redirects.fetch")
+def test_fails_with_url_safety_error_dns_failure(mock_fetch):
+    """Verify URLSafetyError (DNS/safety failure) produces FAIL finding, not crash."""
+    mock_fetch.side_effect = URLSafetyError("DNS resolution failed for scan.redbridgecyber.com.au")
+    entries = [RedirectEntry(**{"from": "https://scan.redbridgecyber.com.au", "to": "https://example.com.au", "code": 301})]
+    findings = redirects.check(entries)
+
+    assert len(findings) == 1
+    assert findings[0].status == Status.FAIL
+    # Detail should mention unreachable/DNS/error
+    assert "unreachable" in findings[0].detail.lower() or "dns" in findings[0].detail.lower()
+    # Evidence should contain the error message
+    assert "error" in findings[0].evidence
+    assert "DNS resolution failed" in findings[0].evidence["error"]
