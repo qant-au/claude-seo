@@ -1,12 +1,25 @@
 """Verify configured redirect graph: each entry must 301 from→to."""
 from __future__ import annotations
 
+import sys
+import os
+
 from urllib.parse import urlparse
 
 from qant.config import RedirectEntry
 from qant.fetcher import fetch
 from qant.findings import Finding, Severity, Status
 from qant.registry import get
+
+# Import URLSafetyError for DNS/safety failures so we emit a FAIL finding
+# rather than crashing when a redirect source has no A record.
+_SCRIPTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "scripts")
+if _SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPTS_DIR)
+try:
+    from url_safety import URLSafetyError  # type: ignore
+except ImportError:
+    URLSafetyError = Exception  # type: ignore[misc,assignment]
 
 
 def _classify(entry: RedirectEntry) -> str:
@@ -48,7 +61,15 @@ def check(entries: list[RedirectEntry]) -> list[Finding]:
     findings: list[Finding] = []
     for entry in entries:
         id_ = _classify(entry)
-        result = fetch(entry.from_)
+        try:
+            result = fetch(entry.from_)
+        except URLSafetyError as exc:
+            findings.append(_make(
+                id_, Status.FAIL, entry.from_,
+                f"{entry.from_} is unreachable (DNS/safety error): {exc}",
+                evidence={"error": str(exc)},
+            ))
+            continue
         expected_to = _normalize(entry.to)
         actual_to = _normalize(result.final_url)
 
