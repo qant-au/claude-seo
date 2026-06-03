@@ -162,3 +162,10 @@ presentations/
 
 # Internal implementation plans / specs (working notes, not user docs)
 docs/superpowers/
+
+# QANT brand-audit
+qant/**/__pycache__/
+qant/tests/.pytest_cache/
+
+# Override the broader output/ rule above — qant/output/ is package code, not build output.
+!qant/output/

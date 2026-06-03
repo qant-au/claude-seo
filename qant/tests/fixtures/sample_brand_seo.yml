@@ -1,0 +1,26 @@
+brand: redbridgecyber
+display_name: Red Bridge Cyber
+country: AU
+legal_entity: QANT Pty Ltd (ACN 088 738 943)
+
+canonical:
+  marketing: https://redbridgecyber.com.au
+
+hosts:
+  marketing:
+    staging: redbridgecyber-stg.qant.co
+    production: redbridgecyber.com.au
+
+redirects:
+  - { from: https://redbridgecyber.com,            to: https://redbridgecyber.com.au,         code: 301 }
+  - { from: https://redbridgecyber.au,             to: https://redbridgecyber.com.au,         code: 301 }
+  - { from: https://redbridgecyber.com.au/blog,    to: https://redbridgecyber.com.au/improve, code: 301 }
+
+out_of_scope:
+  - report.redbridgecyber.com.au
+
+expected:
+  staging:
+    - { id: indexability.allows-indexing, reason: staging suppressed via edge header }
+    - { id: indexability.no-x-robots-tag-noindex, reason: same }
+  production: []
