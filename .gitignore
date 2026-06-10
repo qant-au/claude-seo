@@ -172,3 +172,6 @@ qant/tests/.pytest_cache/
 
 # Scout posture scans — session artefacts, regenerable
 scout-out/
+
+# graphify local index (rebuilt by post-commit hook)
+graphify-out/
