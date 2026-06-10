@@ -169,3 +169,6 @@ qant/tests/.pytest_cache/
 
 # Override the broader output/ rule above — qant/output/ is package code, not build output.
 !qant/output/
+
+# Scout posture scans — session artefacts, regenerable
+scout-out/
