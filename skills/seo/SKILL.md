@@ -115,6 +115,7 @@ Hard rules:
 - Never recommend HowTo schema (deprecated Sept 2023)
 - FAQ schema for Google rich results: only government and healthcare sites (Aug 2023 restriction); existing FAQPage on commercial sites -> flag Info priority (not Critical), noting AI/LLM citation benefit; adding new FAQPage -> not recommended for Google benefit
 - All Core Web Vitals references use INP, never FID
+- Never emit `(n=150)`-style sample-size notation in any client-facing copy, citation, chart source line, or caption — first-party research is cited by name + edition vintage only; sample sizes belong on the published methodology page
 
 ## Community Footer
 
